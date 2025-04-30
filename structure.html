@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Fly High Travels</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oleo+Script:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Basic Reset */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Oleo Script", sans serif;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        position: relative;
+        font-family: sans-serif;
+      }
+
+      /* NAV BAR */
+      .navbar {
+        background: rgba(0, 0, 0, 0.5); /* semi-transparent background */
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px); /* for Safari */
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 40px;
+        z-index: 100;
+      }
+      .nav-links {
+        position: absolute;
+        right: calc(50vw - 300px);
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        gap: 20px;
+        z-index: 101;
+      }
+      .nav-links a {
+        text-decoration: none;
+        color: #3ea495;
+        font-size: 16px;
+      }
+      .nav-links a:hover {
+        text-decoration: none;
+        color: #3ea495;
+        font-size: 16px;
+        opacity: 70%;
+      }
+      .logo {
+        position: absolute;
+        right: calc(50vw + 200px);
+        top: 50%;
+        transform: translateY(-50%);
+        color: #3ea495;
+        z-index: 101;
+      }
+      .logo:hover {
+        cursor: pointer;
+      }
+
+      /* HERO SECTION */
+      .hero {
+        position: relative;
+        height: 100vh;
+        background: url("images/tex1.jpg") no-repeat center center;
+        background-size: cover; /* Or use 'contain' or specific dimensions */
+        padding-top: 60px; /* account for fixed navbar */
+      }
+
+      /* Footer-like container inside the hero */
+      .footer-like {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 200px;
+        /* Remove the opaque background color so the hero background shows through */
+        background: url("images/table2.png") no-repeat center center;
+        background-size: cover;
+        z-index: 1;
+      }
+
+      /* LANDSCAPE WRAPPER
+         This wrapper holds the landscape container and its shadow.
+         It does not have overflow hidden, so the shadow is not clipped.
+      */
+      .landscape-wrapper {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 600px;
+        max-width: 90%;
+        height: 800px;
+        bottom: 60px;
+        z-index: 10;
+      }
+      /* Attach the shadow to the wrapper */
+      .landscape-wrapper::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 10px; /* Increase height for a visible shadow */
+        box-shadow: -5px 5px 10px rgba(0, 0, 0, 0.8),
+          -15px 10px 15px rgba(0, 0, 0, 0.8);
+        pointer-events: none;
+        border-radius: 10px;
+      }
+
+      /* LANDSCAPE CONTAINER */
+      .landscape-container {
+        position: relative; /* establish context for layers */
+        width: 100%;
+        height: 100%;
+        overflow: hidden; /* still clip inner elements */
+        background: transparent;
+      }
+
+      /* Layered Structure: Fifteen layers with various z-index values */
+      .landscape-container .layer {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+      /* Ridge Front */
+      .layer.layer-1 {
+        bottom: 0;
+        left: 0;
+        background-position: left bottom;
+        background-size: contain;
+        z-index: 32;
+      }
+      /* Mist */
+      .landscape-container .layer.layer-mist {
+        bottom: 0;
+        left: 0;
+        background-position: left calc(100% - 5px);
+        background-size: contain;
+        animation: float5 8s ease-in-out infinite;
+        z-index: 31;
+      }
+      /* Ridge Back */
+      .landscape-container .layer.layer-2 {
+        bottom: 0;
+        left: 0;
+        background-position: left calc(100% - 20px);
+        background-size: contain;
+        z-index: 30;
+      }
+      .landscape-container .layer.layer-3 {
+        bottom: 0;
+        left: 0;
+        background-position: left calc(100% - 40px);
+        background-size: contain;
+        z-index: 29;
+      }
+      /* Hangglider will move horizontally from left to right */
+      .hangglider {
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        top: 400px;
+        left: -50px; /* start off-screen left */
+        animation: flyRight 10s linear infinite;
+        z-index: 27;
+      }
+      /* Buildings */
+      .landscape-container .layer.layer-4 {
+        bottom: 0;
+        left: 0;
+        background-position: left calc(100% - 40px);
+        background-size: contain;
+        z-index: 26;
+      }
+      .landscape-container .layer.layer-5 {
+        bottom: 0;
+        left: 0;
+        background-position: left calc(100% - 80px);
+        background-size: contain;
+        z-index: 24;
+      }
+      .landscape-container .layer.layer-6 {
+        bottom: 0;
+        left: 0;
+        background-position: left calc(100% - 40px);
+        background-size: contain;
+        z-index: 22;
+      }
+      .landscape-container .layer.layer-7 {
+        bottom: 0;
+        left: 0;
+        background-position: left calc(100% - 40px);
+        background-size: contain;
+        z-index: 20;
+      }
+      .landscape-container .layer.layer-8 {
+        bottom: 0;
+        left: 0;
+        background-position: left calc(100% - 50px);
+        background-size: contain;
+        z-index: 18;
+      }
+      /* Mid-Clouds */
+      .landscape-container .layer.layer-midcloudoverlay {
+        bottom: 0;
+        left: 0;
+        background-position: left calc(100% - 40px);
+        background-size: contain;
+        animation: float4 7s ease-in-out infinite;
+        z-index: 17;
+      }
+      .landscape-container .layer.layer-9 {
+        bottom: 0;
+        left: 0;
+        background-position: left calc(100% - 50px);
+        background-size: contain;
+        animation: float4 10s ease-in-out infinite;
+        z-index: 16;
+      }
+      /* Hotairballoon moving horizontally */
+      .hotairballoon {
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        top: 250px;
+        left: -50px;
+        animation: flyRight2 15s linear infinite;
+        z-index: 15;
+      }
+      /* Peaks */
+      .landscape-container .layer.layer-10 {
+        bottom: 0;
+        left: 0;
+        background-position: left calc(100% - 50px);
+        background-size: contain;
+        z-index: 14;
+      }
+      .landscape-container .layer.layer-11 {
+        bottom: 0;
+        left: 0;
+        background-position: left calc(100% - 50px);
+        background-size: contain;
+        z-index: 12;
+      }
+      .landscape-container .layer.layer-12 {
+        bottom: 0;
+        left: 0;
+        background-position: left calc(100% - 50px);
+        background-size: contain;
+        z-index: 10;
+      }
+      /* Bottom-Clouds */
+      .landscape-container .layer.layer-13 {
+        bottom: 0;
+        left: 0;
+        background-position: left calc(100% - 50px);
+        background-size: contain;
+        animation: float3 25s ease-in-out infinite;
+        z-index: 8;
+      }
+      .landscape-container .layer.layer-14 {
+        bottom: 0;
+        left: 0;
+        background-position: left calc(100% - 50px);
+        background-size: contain;
+        animation: float2 20s ease-in-out infinite;
+        z-index: 8;
+      }
+      .landscape-container .layer.layer-15 {
+        bottom: 0;
+        left: 0;
+        background-position: left calc(100% - 50px);
+        background-size: contain;
+        animation: float 15s ease-in-out infinite;
+        z-index: 8;
+      }
+
+      /* Animations for floating layers */
+      @keyframes float {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(30px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+      @keyframes float2 {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(15px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+      @keyframes float3 {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(25px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+      @keyframes float4 {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(20px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+      @keyframes float5 {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(10px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+
+      /* New keyframe animation for horizontal movement of hangglider */
+      @keyframes flyRight {
+        0% {
+          left: -50px; /* Start outside left edge */
+          top: 400px;
+        }
+        100% {
+          left: calc(100% + 50px); /* End outside right edge */
+          top: 600px; /* Adjust vertical position as needed */
+        }
+      }
+      @keyframes flyRight2 {
+        0% {
+          left: -50px;
+          top: 325px;
+        }
+        100% {
+          left: calc(100% + 50px);
+          top: 600px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAV BAR -->
+    <div class="navbar">
+      <div class="nav-links">
+        <a href="#">Guide</a>
+        <a href="#">Equipment</a>
+        <a href="#">Who We Are</a>
+      </div>
+      <div class="logo">
+        <!-- Replace with your logo image -->
+        Fly High Travels
+      </div>
+    </div>
+
+    <!-- HERO SECTION -->
+    <div class="hero">
+      <!-- LANDSCAPE WRAPPER: Contains the container and shadow -->
+      <div class="landscape-wrapper">
+        <!-- LANDSCAPE CONTAINER -->
+        <div class="landscape-container">
+          <!-- Layers for your stylized landscape -->
+          <div
+            class="layer layer-1"
+            style="background-image: url('images/layer1.png')"
+          ></div>
+          <div
+            class="layer layer-mist"
+            style="background-image: url('images/mist1.png')"
+          ></div>
+          <div
+            class="layer layer-2"
+            style="background-image: url('images/layer2.png')"
+          ></div>
+          <div
+            class="layer layer-3"
+            style="background-image: url('images/layer3.png')"
+          ></div>
+          <!-- Hangglider moving horizontally -->
+          <img
+            class="hangglider"
+            src="images/hangglider1.png"
+            alt="Hangglider"
+          />
+          <div
+            class="layer layer-4"
+            style="background-image: url('images/layer4.png')"
+          ></div>
+          <div
+            class="layer layer-5"
+            style="background-image: url('images/layer5.png')"
+          ></div>
+          <div
+            class="layer layer-6"
+            style="background-image: url('images/layer6.png')"
+          ></div>
+          <div
+            class="layer layer-7"
+            style="background-image: url('images/layer7.png')"
+          ></div>
+          <div
+            class="layer layer-8"
+            style="background-image: url('images/layer8.png')"
+          ></div>
+          <div
+            class="layer layer-9"
+            style="background-image: url('images/layer9.png')"
+          ></div>
+          <div
+            class="layer layer-midcloudoverlay"
+            style="background-image: url('images/midclouds2.png')"
+          ></div>
+          <!-- Hotairballoon moving horizontally -->
+          <img
+            class="hotairballoon"
+            src="images/hab2.png"
+            alt="Hotairballoon"
+          />
+          <div
+            class="layer layer-10"
+            style="background-image: url('images/layer10.png')"
+          ></div>
+          <div
+            class="layer layer-11"
+            style="background-image: url('images/layer11.png')"
+          ></div>
+          <div
+            class="layer layer-12"
+            style="background-image: url('images/layer12.png')"
+          ></div>
+          <div
+            class="layer layer-13"
+            style="background-image: url('images/layer13.png')"
+          ></div>
+          <div
+            class="layer layer-14"
+            style="background-image: url('images/layer14.png')"
+          ></div>
+          <div
+            class="layer layer-15"
+            style="background-image: url('images/layer15.png')"
+          ></div>
+        </div>
+      </div>
+      <!-- Footer-like container -->
+      <div class="footer-like"></div>
+    </div>
+  </body>
+</html>
